@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%=title%></title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel='stylesheet' href='/stylesheets/navigacija.css' />
+    <link rel='stylesheet' href='/stylesheets/admin.css' />
+  </head>
+  <body>
+  <%- include('navigacija', { radnoMjestoID: radnoMjestoID }) %>
+
+  <div class="container mt-5">
+
+      <h1><%=title%></h1>
+      <%if(title.length > 22) {%>
+          <form action="/admin/pdf-radni-sati-po-radniku" method="post">
+              <input style="display: none" value="<%= JSON.stringify(podaci) %>" id="podaci" name="podaci">
+              <input style="display: none" value="<%= title %>" id="radnik" name="radnik">
+              <button type="submit" class="btn btn-outline-dark">Spremi kao .pdf</button>
+      <%} else {%>
+          </form><form action="/pdf-radni-sati-po-projektu" method="post">
+          <input style="display: none" value="<%= JSON.stringify(podaci) %>" id="podaci" name="podaci">
+          <button type="submit" class="btn btn-outline-dark">Spremi kao .pdf</button>
+      </form>
+      <%}%>
+      <div class="table-responsive">
+          <table class="table table-hover">
+              <thead>
+              <tr>
+                  <th>Naziv projekta</th>
+                  <th>Ime klijenta</th>
+                  <th>E-mail klijenta</th>
+                  <th>Ukupno vrijeme potrošeno na projektu</th>
+              </tr>
+              </thead>
+              <%for(let i = 0; i<podaci.length; i++) {%>
+                  <tr>
+                      <td><%= podaci[i].naziv_projekta %></td>
+                      <td><%= podaci[i].ime_klijenta %></td>
+                      <td><%= podaci[i].klijent_email %></td>
+                      <%if(podaci[i].ukupno_vrijeme == null) {%>
+                          <td>0 sati</td>
+                      <%} else {%>
+                      <td><%=podaci[i].ukupno_vrijeme.hours%> sati</td>
+                      <%}%>
+                  </tr>
+              <%}%>
+          </table>
+      </div>
+
+  </div>
+
+  </body>
+</html>

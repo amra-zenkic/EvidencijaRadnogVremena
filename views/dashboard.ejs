@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dashboard</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel='stylesheet' href='/stylesheets/navigacija.css' />
+    <link rel='stylesheet' href='/stylesheets/admin.css' />
+  </head>
+  <body>
+  <%- include('navigacija', { radnoMjestoID: radnoMjestoID }) %>
+
+  <div class="container mt-5">
+      <%if(dolazi) {%>
+          <form action="/radno-vrijeme" method="post" class="mb-4">
+              <input name="radnoVrijeme" id="radnoVrijeme" value="1" style="display: none">
+              <button type="submit" class="btn btn-secondary" >Započni radno vrijeme</button>
+          </form>
+      <%} else if (otisao){%>
+          <button type="button" class="btn btn-secondary mb-4" disabled>Radno vrijeme je završeno</button>
+      <%} else {%>
+          <form action="/radno-vrijeme" method="post" class="mb-4">
+              <input name="radnoVrijeme" id="radnoVrijeme" value="2" style="display: none">
+              <button type="submit" class="btn btn-secondary">Završi radno vrijeme</button>
+          </form>
+      <%}%>
+      <div class="row mb-4">
+          <div class="col-sm-6">
+              <div class="card">
+                  <div class="card-body">
+                      <h5 class="card-title"><i class="fa fa-address-card-o"></i> Trenutno aktivni projekti</h5>
+                      <p class="card-text"><%=podaci.aktivniprojekti%> Ukupno aktivnih projekata</p>
+                      <a href="/aktivni-projekti" class="btn dugme">Pogledaj sve aktivne projekte</a>
+                  </div>
+              </div>
+          </div>
+          <div class="col-sm-6">
+              <div class="card">
+                  <div class="card-body">
+                      <h5 class="card-title"><i class="fa fa-address-card-o"></i> Trenutno aktivni taskovi</h5>
+                      <p class="card-text"><%=podaci.aktivnitaskovi%> Ukupno nezavršenih taskova</p>
+                      <a href="/moji-aktivni-taskovi" class="btn dugme">Pogledaj sve nezavršene taskove</a>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-sm-6">
+              <div class="card">
+                  <div class="card-body">
+                      <h5 class="card-title"><i class="fa fa-address-card-o"></i> Završeni projekti</h5>
+                      <p class="card-text"><%=podaci.zavrseniprojekti%> Ukupno završenih projekata na kojima ste bili uključeni</p>
+                      <a href="/zavrseni-projekti" class="btn dugme">Pogledaj sve završene projekte</a>
+                  </div>
+              </div>
+          </div>
+          <div class="col-sm-6">
+              <div class="card">
+                  <div class="card-body">
+                      <h5 class="card-title"><i class="fa fa-address-card-o"></i> Završeni taskovi</h5>
+                      <p class="card-text"><%=podaci.zavrsentaskovi%> Ukupno završenih taskova</p>
+                      <a href="/moji-zavrseni-taskovi" class="btn dugme">Pogledaj sve završene taskove</a>
+                  </div>
+              </div>
+          </div>
+      </div>
+    <%if(radnoMjestoID == 2) {%>
+          <h2 class="mt-5">Radnici kojima ste nadređeni</h2>
+          <table class="table table-hover">
+              <thead>
+              <tr>
+                  <th>Ime i prezime radnika</th>
+                  <th>E-mail</th>
+                  <th>Radno mjesto</th>
+              </tr>
+              </thead>
+              <tbody>
+              <%podredjeni.forEach(podredjen => {%>
+                  <tr>
+                      <td><%= podredjen.ime_i_prezime %></td>
+                      <td><%= podredjen.email %></td>
+                      <td><%= podredjen.naziv_radnog_mjesta %></td>
+                  </tr>
+              <%})%>
+              </tbody>
+          </table>
+    <%}%>
+  </div>
+
+  </body>
+</html>

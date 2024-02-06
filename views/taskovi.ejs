@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dobro došli</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel='stylesheet' href='/stylesheets/navigacija.css'/>
+    <link rel='stylesheet' href='/stylesheets/admin.css'/>
+
+</head>
+<body>
+<%- include('navigacija', { radnoMjestoID: radnoMjestoID }) %>
+
+<div class="container mt-5">
+    <div class="row">
+        <% if(taskovi.length === 0) { %>
+            <p>Nemate taskova</p>
+        <% }else { %>
+        <% if( aktivniTaskovi && (radnoMjestoID === 2))  { %>
+            <p>Broj taskova koji kasne: <%=brojTaskovaKojiKasne%></p>
+        <%}%>
+
+        <% if( aktivniTaskovi )  { %>
+    <div class="card mb-4">
+        <div class="card-body">
+            <h2>Brzi unos zavšavanja taska</h2>
+            <%if(messages.success_msg) {%>
+                <li><%= messages.success_msg %></li>
+            <%}%>
+        <form action="/zavrsi-task-brzo">
+            <div class="mb-3 mt-3">
+                <label for="gotovTask" class="form-label">Unesi npr. <b>#ime projekta #naziv taska #t5</b>:</label>
+                <input type="text" class="form-control" id="gotovTask" placeholder="Unesi" name="gotovTask">
+            </div>
+            <button type="submit" class="btn btn-outline-dark mb-3">Završi taj task</button>
+        </form>
+        </div>
+        </div>
+        <%}%>
+        <% taskovi.forEach(task => { %>
+        <div class="col-sm-6 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"><%= task.naziv_taska %> </h5>
+                    <p style="font-weight: bold">Projekat: <%= task.naziv_projekta %></p>
+                    <% if (new Date(task.zavrsni_datum) < new Date() && aktivniTaskovi) { %>
+                        <p class="card-text" style="color: red"><%= task.zavrsni_datum.toLocaleDateString() %></p>
+                    <% } else {%>
+                        <p class="card-text"><%= task.zavrsni_datum.toLocaleDateString() %></p>
+                    <% }%>
+                    <p class="card-text">Radnik: <%=task.naziv_radnika%></p>
+                    <a class="btn btn-outline-dark" data-bs-toggle="collapse" href="#detaljnoOTasku<%= task.id %>"
+                       role="button" aria-expanded="false" aria- controls="collapseExample">
+                        Pogledaj više
+                    </a>
+                    <% if( aktivniTaskovi )  { %>
+                    <a class="btn btn-outline-dark" data-bs-toggle="collapse" href="#zavrsiTask<%= task.id %>"
+                       role="button" aria-expanded="false" aria-controls="collapseExample">
+                        Završi task
+                    </a>
+                    <% } %>
+                    <div class="collapse" id="detaljnoOTasku<%= task.id %>">
+                        <div class="card card-body">
+                            <p><b>Opis taska: </b><%= task.opis_taska %></p>
+                            <p><b>Menadžer: </b> <%= task.ime_menadzera %></p>
+                            <p><b>Klijent: </b> <%= task.ime_klijenta %></p>
+                            <p><b>Radnik: </b> <%=task.naziv_radnika%></p>
+                        </div>
+                    </div>
+                    <% if( aktivniTaskovi )  { %>
+                    <div class="collapse" id="zavrsiTask<%= task.id %>">
+                        <div class="card card-body">
+                            <p><b>Završi task</b></p>
+                            <form action="/zavrsi-task/<%= task.id %>/<%= radnikID %>" method="post">
+                                <input type="number" placeholder="Unesi broj sati" id="brSati" name="brSati"
+                                       class="form-control" required>
+                                <button type="submit" class="btn btn-light mt-2">Završi task</button>
+                                <button type="reset" class="btn btn-light mt-2">Odustani</button>
+                            </form>
+
+                        </div>
+                    </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+        <% })} %>
+
+    </div>
+</div>
+
+
+</body>
+</html>

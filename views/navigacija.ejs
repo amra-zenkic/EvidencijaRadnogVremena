@@ -1,0 +1,100 @@
+<% if(radnoMjestoID !== 1) {%>
+<nav class="navbar navbar-expand-sm navigacija navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/dashboard">RADNIK</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/dashboard">Početna</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/svi-projekti">Svi projekti</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/aktivni-projekti">Aktivni projekti</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/zavrseni-projekti">Završeni projekti</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle pt-2" href="#" role="button" data-bs-toggle="dropdown">Taskovi</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/moji-aktivni-taskovi">Moji aktivni taskovi</a></li>
+                        <li><a class="dropdown-item" href="/moji-zavrseni-taskovi">Moji završeni taskovi</a></li>
+                        <%if(radnoMjestoID === 2) { %>
+                            <li><a class="dropdown-item" href="/zadani-aktivni-taskovi">Zadani taskovi - aktivni</a></li>
+                            <li><a class="dropdown-item" href="/zadani-zavrseni-taskovi">Zadani taskovi - završeni</a></li>
+                            <li><a class="dropdown-item" href="/dodaj-novi-task">DODAJ NOVI TASK</a></li>
+                        <%}%>
+                    </ul>
+                </li>
+                <%if(radnoMjestoID === 2) {%>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/dodaj-novi-projekat">Dodaj novi projekat</a>
+                    </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle pt-2" href="#" role="button" data-bs-toggle="dropdown">Izvještaji</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/radni-sati-po-projektu">Radni sati po projektu</a></li>
+                    </ul>
+                </li>
+                <%}%>
+                <li class="nav-item">
+                    <a class="nav-link" href="/chat">Chat</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link danger" href="/logout">Odjavi se</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<%} else {%><nav class="navbar navbar-expand-sm navigacija navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/admin">ADMIN</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin">Početna</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle pt-2" href="#" role="button" data-bs-toggle="dropdown">Korisnici</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/admin/svi-korisnici">Svi korisnici</a></li>
+                        <li><a class="dropdown-item" href="/admin/dodaj-novog-korisnika">Dodaj novog korisnika</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle pt-2" href="#" role="button" data-bs-toggle="dropdown">Projekti</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/svi-projekti">Svi projekti</a></li>
+                        <li><a class="dropdown-item" href="/aktivni-projekti">Aktivni projekti</a></li>
+                        <li><a class="dropdown-item" href="/zavrseni-projekti">Završeni projekti</a></li>
+                        <li><a class="dropdown-item" href="/dodaj-novi-projekat">Dodaj novi projekat</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle pt-2" href="#" role="button" data-bs-toggle="dropdown">Izvještaji</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/admin/radno-vrijeme-na-datum">Radno vrijeme radnika na određeni datum</a></li>
+                        <li><a class="dropdown-item" href="/radni-sati-po-projektu">Radni sati po projektu</a></li>
+                        <li><a class="dropdown-item" href="/radni-sati-po-radniku">Radni sati po radniku</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link danger" href="/logout">Odjavi se</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<%}%>
+

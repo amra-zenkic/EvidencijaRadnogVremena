@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dashboard</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel='stylesheet' href='/stylesheets/navigacija.css' />
+    <link rel='stylesheet' href='/stylesheets/admin.css' />
+  </head>
+  <body>
+  <%- include('navigacija', { radnoMjestoID: radnoMjestoID }) %>
+
+  <div class="container mt-5">
+
+      <h1>O radniku</h1>
+      <p><b>Ime i prezime: </b><%=podaci.ime_i_prezime_radnika%></p>
+      <p><b>Naziv radnog mjesta: </b><%=podaci.naziv_radnog_mjesta%></p>
+      <p><b>Email: </b><%=podaci.email%></p>
+      <p><b>Ime i prezime nadređenog: </b><%=podaci.ime_i_prezime_nadredjenog%></p>
+      <p><b>Radno vrijeme: </b>od <%=podaci.radno_vrijeme_start%> do <%=podaci.radno_vrijeme_end%></p>
+
+      <h1 class="mt-3">Aktivni projekti u koje je uključen</h1>
+      <div class="table-responsive">
+          <table class="table table-hover">
+              <thead>
+              <tr>
+                  <th>Naziv projekta</th>
+                  <th>Startni datum</th>
+                  <th>Završni datum</th>
+              </tr>
+              </thead>
+              <%for(let i = 0; i<projekti.length; i++) {%>
+                  <%if(projekti[i].status_projekta == false) {%>
+                      <tr>
+                          <td><%= projekti[i].naziv_projekta %></td>
+                          <td><%= projekti[i].startni_datum.toLocaleString() %></td>
+                          <td><%= projekti[i].zavrsni_datum.toLocaleString() %></td>
+                      </tr>
+                  <%}%>
+              <%}%>
+          </table>
+      </div>
+
+      <h1 class="mt-3">Aktivni taskovi radnika</h1>
+      <div class="table-responsive">
+          <table class="table table-hover">
+              <thead>
+              <tr>
+                  <th>Naziv taska</th>
+                  <th>Naziv projekta</th>
+                  <th>Završni datum taska</th>
+              </tr>
+              </thead>
+              <%for(let i = 0; i<taskovi.length; i++) {%>
+              <%if(taskovi[i].potroseno_vrijeme_na_tasku == null) {%>
+                  <tr>
+                      <td><%= taskovi[i].naziv_taska %></td>
+                      <td><%= taskovi[i].naziv_projekta %></td>
+                      <td><%= taskovi[i].zavrsni_datum.toLocaleString() %></td>
+                  </tr>
+              <%}%>
+              <%}%>
+          </table>
+      </div>
+      <hr>
+
+      <h1 class="mt-3">Završeni projekti u koje je bio uključen</h1>
+      <div class="table-responsive">
+          <table class="table table-hover">
+              <thead>
+              <tr>
+                  <th>Naziv projekta</th>
+                  <th>Startni datum</th>
+                  <th>Završni datum</th>
+              </tr>
+              </thead>
+              <%for(let i = 0; i<projekti.length; i++) {%>
+              <%if(projekti[i].status_projekta == true) {%>
+                  <tr>
+                      <td><%= projekti[i].naziv_projekta %></td>
+                      <td><%= projekti[i].startni_datum.toLocaleString() %></td>
+                      <td><%= projekti[i].zavrsni_datum.toLocaleString() %></td>
+                  </tr>
+              <%}%>
+              <%}%>
+          </table>
+      </div>
+
+      <h1 class="mt-3">Završeni taskovi radnika</h1>
+      <div class="table-responsive">
+          <table class="table table-hover">
+              <thead>
+              <tr>
+                  <th>Naziv taska</th>
+                  <th>Naziv projekta</th>
+                  <th>Završni datum taska</th>
+                  <th>Potrošeno vrijeme na tasku</th>
+              </tr>
+              </thead>
+              <%for(let i = 0; i<taskovi.length; i++) {%>
+              <%if(taskovi[i].potroseno_vrijeme_na_tasku !== null) {%>
+                  <tr>
+                      <td><%= taskovi[i].naziv_taska %></td>
+                      <td><%= taskovi[i].naziv_projekta %></td>
+                      <td><%= taskovi[i].zavrsni_datum.toLocaleString() %></td>
+                      <%if(taskovi[i].potroseno_vrijeme_na_tasku.hours == null) {%>
+                      <td>0 sati</td>
+                      <%} else {%>
+                          <td><%=taskovi[i].potroseno_vrijeme_na_tasku.hours%> sati</td>
+                      <%}%>
+                  </tr>
+              <%}%>
+              <%}%>
+          </table>
+      </div>
+
+  </div>
+
+  </body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dodaj novi projekat</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel='stylesheet' href='/stylesheets/navigacija.css' />
+    <link rel='stylesheet' href='/stylesheets/admin.css' />
+  </head>
+  <body>
+  <%- include('navigacija', { radnoMjestoID: radnoMjestoID }) %>
+
+
+  <div class="container shadow p-4 px-6 my-5">
+    <h1 class="my-3">Dodaj novi projekat</h1>
+
+    <ul>
+      <%if(typeof errors != 'undefined') {%>
+        <% errors.forEach(error=>{%>
+          <li> <%= error.message%> </li>
+      <%})}%>
+      <%if(typeof  uspjeh != 'undefined') {%>
+        <% uspjeh.forEach(usp=>{%>
+          <li> <%= usp %> </li>
+      <%})}%>
+    </ul>
+    <form action="/dodaj-novi-projekat/dodaj" method="post">
+      <div class="mb-3 mt-3">
+        <label for="ime_projekta">Naziv projekta:</label>
+        <input type="text" class="form-control" id="ime_projekta" placeholder="Ime projekta" name="ime_projekta" required>
+      </div>
+      <div class="mb-3 mt-3">
+        <label for="opis_projekta">Opis projekta:</label>
+        <input type="text" class="form-control" id="opis_projekta" placeholder="Opis projekta" name="opis_projekta" required>
+      </div>
+      <div class="mb-3 mt-3">
+        <label for="ime_klijenta">Ime klijenta:</label>
+        <input type="text" class="form-control" id="ime_klijenta" placeholder="Ime klijenta" name="ime_klijenta" required>
+      </div>
+      <div class="mb-3 mt-3">
+        <label for="email_klijenta">Email klijenta:</label>
+        <input type="email" class="form-control" id="email_klijenta" placeholder="Email klijenta" name="email_klijenta" required>
+      </div>
+      <div class="mb-3">
+        <label for="glavni_menadzer">Odaberi glavnog menadzera
+          <select class="form-select" id="glavni_menadzer" name="glavni_menadzer" required>
+            <%menadzeri.forEach(menadzer => {%>
+              <option><%= menadzer.email %></option>
+            <%})%>
+          </select>
+        </label>
+      </div>
+
+      <div class="mb-3 mt-3">
+        <label for="startni_datum">Startni datum:</label>
+        <input type="date" class="form-control" id="startni_datum" name="startni_datum" required>
+      </div>
+      <div class="mb-3 mt-3">
+        <label for="zavrsni_datum">Zavšni datum: </label>
+        <input type="date" class="form-control" id="zavrsni_datum" name="zavrsni_datum" required>
+      </div>
+
+      <label for="glavni_menadzer" class="mb-2">Odaberi radnike u projektu</label>
+
+      <div class="form-check mb-3">
+        <%sviRadnici.forEach(radnik => {%>
+          <div class="mb-2">
+            <label class="form-check-label" for="radniciRadeUProjektu">
+              <input class="form-check-input" type="checkbox" id="radniciRadeUProjektu" name="radniciRadeUProjektu" value="<%=radnik.id%>"> <%=radnik.name%> <%=radnik.surname%>
+            </label>
+            <label for="timoviID">
+              <select class="form-select" id="timoviID" name="timoviID" >
+                <option name="n1" value="0">Ne dodaj radnika</option>
+                <%timovi.forEach(tim => {%>
+                <option name="n1" value="<%=tim.id%>"><%=tim.naziv_tima%></option>
+                <%})%>
+              </select>
+            </label>
+
+          </div>
+        <%})%>
+      </div>
+
+
+
+      <button type="submit" class="btn btn-primary">Dodaj novi projekat</button>
+      <!-- <button class="btn btn-primary" onclick="<%= () => { window.location = `/admin/`}%>">Odustani</button> -->
+      <br>
+    </form>
+  </div>
+
+  </body>
+</html>
